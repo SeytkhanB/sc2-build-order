@@ -4,11 +4,25 @@ import { router, publicProcedure } from "../trpc";
 
 export const buildsRouter = router({
   createBuild: publicProcedure
-    .input(z.object({ matchUp: z.string(), build: z.string() }))
+    .input(
+      z.object({
+        matchUp: z.string(),
+        build: z.string(),
+        style: z.string(),
+        desc: z.string().optional(),
+        author: z.string().optional(),
+        title: z.string(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       const build = await ctx.prisma.buildOrder.create({
         data: {
-          ...input,
+          matchUp: input.matchUp,
+          build: input.build,
+          style: input.style,
+          author: input.author,
+          desc: input.desc,
+          title: input.title,
         },
       });
 

@@ -6,7 +6,11 @@ import { trpc } from "../utils/trpc";
 
 const SubmitPage: NextPage = () => {
   const createBuildMutation = trpc.builds.createBuild.useMutation();
+  const [author, setAuthor] = useState("");
   const [build, setBuild] = useState("");
+  const [desc, setDesc] = useState("");
+  const [title, setTitle] = useState("");
+  const [style, setStyle] = useState("cheese");
   const [matchUp, setMatchUp] = useState("zvt");
   const router = useRouter();
 
@@ -15,16 +19,15 @@ const SubmitPage: NextPage = () => {
     setMatchUp(value);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target;
-    setBuild(value);
-  };
-
   const handleSubmitBuildOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     await createBuildMutation.mutateAsync({
       matchUp,
       build,
+      style,
+      author,
+      desc,
+      title,
     });
     router.push("/");
   };
@@ -37,43 +40,118 @@ const SubmitPage: NextPage = () => {
         <link rel="icon" href="/sc2.png" />
       </Head>
       <main
-        className="flex min-h-screen 
-        flex-col items-center justify-center gap-4 bg-gradient-to-b 
-        from-[#2e026d] to-[#15162c] text-white"
+        className="flex min-h-screen flex-col 
+        items-center justify-center gap-4 bg-gradient-to-b from-[#2e026d] 
+        to-[#15162c] pt-5 text-white"
       >
         <h2>Submit a Build Order</h2>
-        <form
-          className="flex
-        flex-col items-center justify-center gap-4"
-          onSubmit={handleSubmitBuildOrder}
-        >
-          <label htmlFor="match-up-select">Match Up</label>
-          <select
-            onChange={handleSelect}
-            value={matchUp}
-            id="match-up-select"
-            className="rounded-sm text-black"
-            required
+
+        <form className="flex flex-col gap-4" onSubmit={handleSubmitBuildOrder}>
+          <div className="grid grid-cols-2 gap-2">
+            <fieldset>
+              <label
+                htmlFor="match-up-select"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Match Up
+              </label>
+              <select
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                onChange={handleSelect}
+                value={matchUp}
+                id="match-up-select"
+              >
+                <option value="zvt">ZvT</option>
+                <option value="zvp">ZvP</option>
+                <option value="zvz">ZvZ</option>
+
+                <option value="pvt">PvT</option>
+                <option value="pvp">PvP</option>
+                <option value="pvz">PvZ</option>
+
+                <option value="tvt">TvT</option>
+                <option value="tvp">TvP</option>
+                <option value="tvz">TvZ</option>
+              </select>
+            </fieldset>
+
+            <fieldset>
+              <label
+                htmlFor="style"
+                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Style
+              </label>
+              <select
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                onChange={(e) => setStyle(e.target.value)}
+                value={style}
+                id="style"
+              >
+                <option value="cheese">Cheese</option>
+                <option value="all in">All In</option>
+                <option value="macro">Macro</option>
+                <option value="timing attack">Timing Attack</option>
+              </select>
+            </fieldset>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <fieldset>
+              <label htmlFor="build">Author</label>
+              <input
+                required
+                id="author"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                placeholder="Author here.."
+              />
+            </fieldset>
+
+            <fieldset>
+              <label htmlFor="build">Title</label>
+              <input
+                id="title"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Title here.."
+              />
+            </fieldset>
+          </div>
+
+          <fieldset>
+            <label htmlFor="build">Build Order</label>
+            <input
+              id="build"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              required
+              value={build}
+              onChange={(e) => setBuild(e.target.value)}
+              placeholder="Build here.."
+            />
+          </fieldset>
+
+          <fieldset>
+            <label htmlFor="build">Description</label>
+            <textarea
+              id="desc"
+              required
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              placeholder="Description here.."
+            />
+          </fieldset>
+
+          <button
+            type="submit"
+            className="float-right mr-2 mb-2 w-min rounded-lg border border-gray-200 bg-white py-2.5 px-5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
           >
-            <option value="zvt">ZvT</option>
-            <option value="zvp">ZvP</option>
-            <option value="zvz">ZvZ</option>
-
-            <option value="pvt">PvT</option>
-            <option value="pvp">PvP</option>
-            <option value="pvz">PvZ</option>
-
-            <option value="tvt">TvT</option>
-            <option value="tvp">TvP</option>
-            <option value="tvz">TvZ</option>
-          </select>
-          <textarea
-            required
-            value={build}
-            onChange={handleChange}
-            className="rounded p-2 text-black "
-          />
-          <button className="rounded bg-white p-2  text-black">submit</button>
+            Submit
+          </button>
         </form>
       </main>
     </>

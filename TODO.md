@@ -1,11 +1,11 @@
 # User Stories
 
-- 
+-
 
 # Misc
 
-- bring in flowbite for some better styles
+# Bugs
 
+- inside buildRouter "author" is highligting/causing error
 
 # Notes
-

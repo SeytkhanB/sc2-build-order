@@ -61,5 +61,9 @@ model VerificationToken {
 model BuildOrder {
   id            String    @id @default(cuid())
   matchUp       String
-  build         String
+  build         String    @default("build")
+  style         String    @default("cheese")
+  title         String    
+  author        String?    @default("Unknown")
+  desc          String?    @default("description")
 }
