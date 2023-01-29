@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { buildTypes } from "../components/BuildCard";
 import { trpc } from "../utils/trpc";
 
 const SubmitPage: NextPage = () => {
@@ -88,10 +89,11 @@ const SubmitPage: NextPage = () => {
                 value={style}
                 id="style"
               >
-                <option value="cheese">Cheese</option>
-                <option value="all in">All In</option>
-                <option value="macro">Macro</option>
-                <option value="timing attack">Timing Attack</option>
+                {buildTypes.map((buildType) => (
+                  <option key={buildType} value={buildType}>
+                    {buildType}
+                  </option>
+                ))}
               </select>
             </fieldset>
           </div>

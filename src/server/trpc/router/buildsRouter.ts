@@ -9,8 +9,8 @@ export const buildsRouter = router({
         matchUp: z.string(),
         build: z.string(),
         style: z.string(),
-        desc: z.string().optional(),
-        author: z.string().optional(),
+        desc: z.string(),
+        author: z.string(),
         title: z.string(),
       })
     )
@@ -37,5 +37,15 @@ export const buildsRouter = router({
         },
       });
       return builds;
+    }),
+  getBuildById: publicProcedure
+    .input(z.object({ buildId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const build = await ctx.prisma.buildOrder.findUnique({
+        where: {
+          id: input.buildId,
+        },
+      });
+      return build;
     }),
 });
