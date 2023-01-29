@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { trpc } from "../../utils/trpc";
-import Badge from "../../components/Badge";
 
 function BuildPage() {
   const { buildId } = useRouter().query as { buildId: string };
