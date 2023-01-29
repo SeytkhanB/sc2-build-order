@@ -1,8 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { buildTypes } from "../components/BuildCard";
+import Input from "../components/Input";
+import Label from "../components/Label";
 import { trpc } from "../utils/trpc";
 
 const SubmitPage: NextPage = () => {
@@ -100,44 +102,44 @@ const SubmitPage: NextPage = () => {
 
           <div className="grid grid-cols-2 gap-2">
             <fieldset>
-              <label htmlFor="build">Author</label>
-              <input
-                required
-                id="author"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
+              <Label labelFor="author">Author</Label>
+              <Input
                 placeholder="Author here.."
+                handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setAuthor(e.target.value)
+                }
+                value={author}
+                id="author"
               />
             </fieldset>
 
             <fieldset>
-              <label htmlFor="build">Title</label>
-              <input
+              <Label labelFor="title">Title</Label>
+              <Input
                 id="title"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                required
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setTitle(e.target.value)
+                }
                 placeholder="Title here.."
               />
             </fieldset>
           </div>
 
           <fieldset>
-            <label htmlFor="build">Build Order</label>
-            <input
+            <Label labelFor="build">Build Order</Label>
+            <Input
               id="build"
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              required
               value={build}
-              onChange={(e) => setBuild(e.target.value)}
+              handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setBuild(e.target.value)
+              }
               placeholder="Build here.."
             />
           </fieldset>
 
           <fieldset>
-            <label htmlFor="build">Description</label>
+            <label htmlFor="desc">Description</label>
             <textarea
               id="desc"
               required

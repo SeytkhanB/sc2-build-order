@@ -1,12 +1,21 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
 import DropDown from "../../../../../components/DropDown";
+import Input from "../../../../../components/Input";
+import Label from "../../../../../components/Label";
 
-const Finall: NextPage = () => {
+const Final: NextPage = () => {
+  const [searchState, setSearchState] = useState("");
+
   const { opponentRace, raceName } = useRouter().query as {
     opponentRace: string;
     raceName: string;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchState(e.target.value);
   };
 
   return (
@@ -25,10 +34,22 @@ const Finall: NextPage = () => {
           {raceName} vs {opponentRace}
         </h2>
 
+        <form>
+          <fieldset>
+            <Label labelFor="search">Search</Label>
+            <Input
+              placeholder="Search"
+              handleChange={handleChange}
+              value={searchState}
+              id="search"
+            />
+          </fieldset>
+        </form>
+
         <DropDown raceName={raceName} opponentRace={opponentRace} />
       </main>
     </>
   );
 };
 
-export default Finall;
+export default Final;
